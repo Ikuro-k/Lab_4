@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Intro to Leaflet</title>
+	<!-- the Leaflet CSS -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+	<!-- the Leaflet JavaScript library -->
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- the plugin CSS -->
+  <!-- Leaflet.markercluster CSS links -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+  <!-- Leaflet.markercluster JS link -->
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+  <!--CSS styles-->
+	<style>
+
+	</style>
+
+</head>
+
+<body>
+  <h1>Cambridge Recreational Bike Racks</h1>
+	<!-- code where we create and name the container that holds the map -->
+	<div id="map" style="height: 90vh"></div>
+
+<script type="text/javascript" src="PROJECTED_BIKERACKS.js"></script>
+
+	<!-- code where we build the map and its functionality -->
+	<script>
+		var mymap = L.map('map').setView([42.373611, -71.110558], 13);
+		var basemap = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.png', {
+			attribution: 'Map tiles by <a href="http:/ mv/stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		}).addTo(mymap);
+		// load earthquake GeoJSON from an external file and add it to the map as a layer
+
+    var PROJECTED_BIKERACKS = L.geoJson(data, {
+    pointToLayer: function(feature, latlng){
+        var marker = L.marker(latlng);
+        marker.bindPopup("Capacity:" + feature.properties.Capacity + "<br>Status:" + feature.properties.Status);
+        return marker;
+    }
+});
+var clusters = L.markerClusterGroup({showCoverageOnHover: false,});
+clusters.addLayer(PROJECTED_BIKERACKS);
+mymap.addLayer(clusters);
+		// fault types and color specs
+
+	</script>
+</body>
+</html>
